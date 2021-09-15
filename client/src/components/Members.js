@@ -1,15 +1,26 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import { MemberForm } from './MemberForm'
+import { MembersList } from './MembersList'
 
-export const Members = ({ members }) => {
+export default function Members(){
+
+    const [members, setMembers] = useState([])
+
+    useEffect(() => {
+        fetch("/members").then(res => 
+            res.json().then(data => {
+                setMembers(data.members)
+            })
+        )
+    }, [])
+  
+    console.log(members)
+    
     return (
-        <div>
-            {(typeof members === 'undefined') ? (
-                <p>Loading...</p>
-            ) : (
-                members.map((member, i) => (
-                    <p key={i}>{member}</p>
-                ))
-            )}
+        <div className="App">
+            <MemberForm onNewMember={member => setMembers(currentMembers => [...currentMembers, member])}/>
+            <MembersList members={members} />
         </div>
     )
+
 }

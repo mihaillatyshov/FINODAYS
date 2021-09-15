@@ -16,6 +16,9 @@ export const MemberForm = ({onNewMember}) => {
 
                 if (res.ok) {
                     console.log('Responce worked!')
+                    res.json().then(data => {
+                        console.log(data)
+                    })
                     onNewMember(name)
                 }
             }}/>
