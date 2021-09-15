@@ -18,7 +18,7 @@ def create_member():
         abort(400)
     reqName = request.json
     members.append(reqName)
-    return jsonify({"member": reqName})
+    return jsonify({"member": "req.ok"})
 
 if __name__ == "__main__":
     app.run(debug=True)

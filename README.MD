@@ -7,8 +7,6 @@
 ```
     pip install Flask
 ```
-~Remake venv folder~
-
 ### client
 In cmd cd to client folder
 ``` 
