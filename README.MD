@@ -7,8 +7,13 @@
 ```
     pip install Flask
 ```
+- Install MySQL driver for python
+```
+    pip install mysql-connector-python
+```
 ### client
-In cmd cd to client folder
+- Install nodejs
+- In cmd cd to client folder
 ``` 
     npm install 
 ```
