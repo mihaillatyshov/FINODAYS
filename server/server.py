@@ -1,4 +1,7 @@
-from flask import Flask, jsonify, make_response, request
+from flask import Flask, jsonify, make_response, request, abort
+from DBlib import DataBase as DB
+
+DataBase = DB("lanhelen.asuscomm.com", "daniel", "Daniel123!", "finno_bd")
 
 app = Flask(__name__)
 
@@ -16,7 +19,8 @@ def get_members():
 def create_member():
     if not request.json:
         abort(400)
-    reqName = request.json
+    reqName = request.json.get("name")
+    print(request.json.get("text"))
     members.append(reqName)
     return jsonify({"member": "req.ok"})
 
