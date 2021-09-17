@@ -15,25 +15,27 @@ export const CommentForm = ({onNewComment}) => {
                 onChange={e => setText(e.target.value)} 
             /><br />
             <input type="button" value="Submit" onClick={async () => {
-                const comment = {"userID" : Math.round(1 + Math.random() * (100 - 1)), text}
-                const res = await fetch('/add_comment', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(comment)
-                })
-
-                console.log(JSON.stringify(comment))
-
-                if (res.ok) {
-                    let newCom;
-                    console.log('Responce worked!')
-                    res.json().then(data => {
-                        console.log(data)
-                        const newCom = data
+                if (text != "") {
+                    const comment = {"userID" : Math.round(1 + Math.random() * (100 - 1)), text}
+                    const res = await fetch('/add_comment', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(comment)
                     })
-                    onNewComment()
+
+                    console.log(JSON.stringify(comment))
+
+                    if (res.ok) {
+                        let newCom;
+                        console.log('Responce worked!')
+                        res.json().then(data => {
+                            console.log(data)
+                            const newCom = data
+                        })
+                        onNewComment()
+                    }
                 }
             }}/> <br /><br />
         </form>
