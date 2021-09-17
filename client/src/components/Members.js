@@ -17,7 +17,7 @@ export default function Members(){
     console.log(members)
     
     return (
-        <div className="App">
+        <div>
             <MemberForm onNewMember={member => setMembers(currentMembers => [...currentMembers, member])}/>
             <MembersList members={members} />
         </div>
