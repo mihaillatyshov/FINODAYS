@@ -1,4 +1,3 @@
 *.csv
-*.pdf
 __pycache__
 example
