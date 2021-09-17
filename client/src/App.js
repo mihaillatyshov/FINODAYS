@@ -1,4 +1,5 @@
 import React from 'react'
+import Comments from './components/Comments'
 import Members from './components/Members'
 
 class App extends React.Component{
@@ -6,6 +7,7 @@ class App extends React.Component{
         return (
             <div className="App">
                 <Members />
+                <Comments />
             </div>
         )
     }
