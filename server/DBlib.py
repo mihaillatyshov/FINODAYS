@@ -53,7 +53,8 @@ class DataBase:
         for comment in comments:
             create_comments += "("
             for field in comment:
-                create_comments += "'" + str(field) + "'" + ","
+                field_str = str(field).replace("\"", "''")
+                create_comments += "\"" + field_str + "\"" + ","
             create_comments = create_comments[:-1]
             create_comments += "),"
         create_comments = create_comments[:-1]

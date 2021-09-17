@@ -1,55 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { CommentForm } from './CommentForm'
 import { CommentsList } from './CommentsList'
-
-//class Comments extends React.Component {
-//    constructor(props) {
-//        super(props)
-//        this.state = {comments: [], NeedUpdateComments: true}
-//    }
-//
-//    componentDidMount() {
-//        console.log("Test m 1")
-//
-//        fetch('/get_comments')
-//            .then((response) => {
-//                return response.json();
-//            })
-//            .then((data) => {
-//                console.log(data);
-//            });
-//
-//        await fetch("/get_comments").then(res => 
-//            res.json().then(data => {
-//                this.setState({comments : data.comments})
-//                console.log("Test m 2")
-//            })
-//        )
-//        this.setState({NeedUpdateComments: false})
-//    }
-//
-//    componentDidUpdate() {
-//        if (this.state.NeedUpdateComments)
-//        {
-//            fetch("/get_comments").then(res => 
-//                res.json().then(data => {
-//                    this.setState({comments : data.comments})
-//                })
-//            )
-//            this.setState({NeedUpdateComments: false})
-//        }
-//    }
-//
-//    render() {
-//        return (
-//            <div>
-//                <CommentsList comments={this.state.comments} />
-//            </div>
-//        )
-//    }
-//}
-//
-//export default Comments
 
 async function UpdateComments() {
     const responce = await fetch("/get_comments")
@@ -61,14 +12,8 @@ export default function Comments() {
 
     const [comments, setComments] = useState([])
     const [NeedUpdate, setNeedUpdate] = useState(true)
+    const [message, setMessage] = useState("")
 
-    //useEffect(() => {
-    //    fetch("/get_comments").then(res => 
-    //        res.json().then(data => {
-    //            setComments(data.comments)
-    //        })
-    //    )
-    //}, [])
     if (NeedUpdate)
     {
         UpdateComments().then(data => {
@@ -80,8 +25,9 @@ export default function Comments() {
     
     return (
         <div>
-            <CommentForm onNewComment={() => setNeedUpdate(true)}/>
+            <CommentForm onNewComment={() => setNeedUpdate(true)} onChangeMessage={mes => {setMessage(mes)}}/>
             <CommentsList comments={comments} />
+            <p>{message}</p>
         </div>
     )
 
