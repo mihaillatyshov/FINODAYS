@@ -74,7 +74,7 @@ model_pipeline.predict(["Hello, are you okay?"])
 
 # text = " "
 
-def GetToxic(text):
-    prediction = model_pipeline.predict("text")
+def GetToxic(dt):
+    prediction = model_pipeline.predict([dt])
     return prediction
 
