@@ -64,6 +64,11 @@ class DataBase:
     def GetComments(self):
         select_comments = "SELECT * FROM comments"
         return self.ExecuteReadQuery(select_comments)
+    
+    def GetCommentsCount(self):
+        select_comments = "SELECT COUNT(*) FROM comments"
+        return self.ExecuteReadQuery(select_comments)[0][0]
+    
 
     def GetText(self):
         select_text = "SELECT text FROM comments ORDER BY id DESC LIMIT 1"

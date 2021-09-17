@@ -1,0 +1,40 @@
+.table_comments {
+    width : 100%;
+    min-width: 480px;
+    background-color: rgb(207, 208, 221);
+}
+
+.tr_comments_init {
+    text-align: center;
+    height: 25px;
+}
+
+.tr_comments_0 {
+    background-color: rgb(214, 224, 243);
+}
+
+.tr_comments_1 {
+    background-color: rgb(200, 200, 228);
+}
+
+.td_comments_1 {
+    min-width: 60px;
+    width: 60px;
+}
+
+.td_comments_2 {
+    min-width: 120px;
+    width: 200px;
+}
+
+.td_comments_3 {
+}
+
+.td_comments_4 {
+    min-width: 60px;
+    width: 60px;
+}
+
+textarea {
+    resize : none;
+}

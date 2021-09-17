@@ -6,7 +6,6 @@ export const MemberForm = ({onNewMember}) => {
         <form>
             <input type="text" placeholder="member name" value={name} onChange={e => setName(e.target.value)} />
             <input type="button" value="Submit" onClick={async () => {
-                const text = "some text"
                 const member = {name, "text" : "some text2"}
                 const res = await fetch('/add_member', {
                     method: 'POST',
