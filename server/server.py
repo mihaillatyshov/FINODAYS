@@ -4,21 +4,30 @@ from neural import GetToxic
 
 DataBase = DB("lanhelen.asuscomm.com", "daniel", "Daniel123!", "finno_bd")
 print("Comments count: ", DataBase.GetCommentsCount())
-print("Comments: ", DataBase.GetComments())
+print("Col Names: ", DataBase.ExecuteReadQuery("DESCRIBE comments")[0][0])
+#print("Comments: ", DataBase.GetComments())
 
 app = Flask(__name__)
 
-members = [
-    "Member1", 
-    "Member2", 
-    "Member3"
-]
-
+def GetSerialize(tableName):
+    DBData = DataBase.GetTableElements(tableName)
+    DBColData = DataBase.ExecuteReadQuery("DESCRIBE " + tableName)
+    result = []
+    for data in DBData:
+        line = {}
+        for field, name in zip(data, DBColData):
+            line.update({name[0] : field})
+            result.append(line)
+    print(result)
+    return result
 
 @app.route("/get_comments", methods=["GET"])
 def get_comments():
     DBComments = DataBase.GetComments()
-    return jsonify({"comments": DBComments})
+    print(" ", "Coms", sep = "\n")
+    for com in DBComments:
+        print(com)
+    return jsonify({"comments" : GetSerialize("comments")})
 
 @app.route("/add_comment", methods=["POST"])
 def create_comment():
@@ -29,7 +38,7 @@ def create_comment():
     #Toxic = random.randint(0, 2)
     Toxic = GetToxic(Text)[0]
     print(UserID, " -------- ", Text)
-    comment = [UserID, Text, Toxic]
+    comment = (UserID, Text, Toxic)
     print("Add Comment: ", comment)
     DataBase.AddComments([comment])
     return jsonify({"res": str(Toxic)})

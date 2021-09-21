@@ -1,12 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { CommentForm } from './CommentForm'
 import { CommentsList } from './CommentsList'
-
-async function UpdateComments() {
-    const responce = await fetch("/get_comments")
-    
-    return await responce.json()
-}
 
 export default function Comments() {
 
@@ -14,14 +8,9 @@ export default function Comments() {
     const [NeedUpdate, setNeedUpdate] = useState(true)
     const [message, setMessage] = useState("")
 
-    if (NeedUpdate)
-    {
-        UpdateComments().then(data => {
-            setComments(data.comments)
-        })
-        setNeedUpdate(false)
-    }
-    console.log("Comments: ", comments)
+    useEffect(() => {
+        fetch("/get_comments")
+    })
     
     return (
         <div>
