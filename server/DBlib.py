@@ -34,7 +34,16 @@ class DataBase:
         try:
             cursor.execute(query)
             self.connection.commit()
-            print("Query executed successfully")
+            print("Query(E) executed successfully")
+        except Error as e:
+            print(f"The error '{e}' occurred")
+            
+    def ExecuteManyQuery(self, query, data):
+        cursor = self.connection.cursor()
+        try:
+            cursor.executemany(query, data)
+            self.connection.commit()
+            print("Query(EM) executed successfully")
         except Error as e:
             print(f"The error '{e}' occurred")
 
@@ -49,28 +58,27 @@ class DataBase:
             print(f"The error '{e}' occurred")
     
     def AddComments(self, comments):
-        create_comments = "INSERT INTO  `comments` (`user_id`, `text`, `toxic`) VALUES "
+        NewComments = []
         for comment in comments:
-            create_comments += "("
+            NewFields = []
             for field in comment:
-                field_str = str(field).replace("\"", "''")
-                create_comments += "\"" + field_str + "\"" + ","
-            create_comments = create_comments[:-1]
-            create_comments += "),"
-        create_comments = create_comments[:-1]
-        create_comments += ";"
-        print(create_comments)
-        self.ExecuteQuery(create_comments) 
+                NewFields.append(str(field))
+            NewComments.append(NewFields)
+        create_comments = """
+            INSERT INTO  `comments`
+             (`user_id`, `text`, `toxic`) 
+             VALUES ( %s, %s, %s )
+        """
+        self.ExecuteManyQuery(create_comments, NewComments) 
 
     def GetComments(self):
         select_comments = "SELECT * FROM comments"
         return self.ExecuteReadQuery(select_comments)
+
+    def GetTableElements(self, tableName):
+        select_elements = "SELECT * FROM " + tableName
+        return self.ExecuteReadQuery(select_elements)
     
     def GetCommentsCount(self):
         select_comments = "SELECT COUNT(*) FROM comments"
         return self.ExecuteReadQuery(select_comments)[0][0]
-    
-
-    def GetText(self):
-        select_text = "SELECT text FROM comments ORDER BY id DESC LIMIT 1"
-        return self.ExecuteReadQuery(select_text)
