@@ -12,35 +12,33 @@ app = Flask(__name__)
 def GetSerialize(tableName):
     DBData = DataBase.GetTableElements(tableName)
     DBColData = DataBase.ExecuteReadQuery("DESCRIBE " + tableName)
-    result = []
+    result = {tableName : []}
     for data in DBData:
         line = {}
         for field, name in zip(data, DBColData):
             line.update({name[0] : field})
-            result.append(line)
-    print(result)
+        result[tableName].append(line)
     return result
 
 @app.route("/get_comments", methods=["GET"])
 def get_comments():
-    DBComments = DataBase.GetComments()
-    print(" ", "Coms", sep = "\n")
-    for com in DBComments:
-        print(com)
-    return jsonify({"comments" : GetSerialize("comments")})
+    return jsonify(GetSerialize("comments"))
 
 @app.route("/add_comment", methods=["POST"])
 def create_comment():
+    print(" ========================= We come here ========================= ")
     if not request.json:
         abort(400)
     UserID = request.json.get("userID")
     Text = request.json.get("text")
     #Toxic = random.randint(0, 2)
     Toxic = GetToxic(Text)[0]
+    print(" ========================= We come here again ========================= ")
     print(UserID, " -------- ", Text)
     comment = (UserID, Text, Toxic)
     print("Add Comment: ", comment)
     DataBase.AddComments([comment])
+    print(" ========================= We come here again ========================= ")
     return jsonify({"res": str(Toxic)})
     
 

@@ -17,20 +17,20 @@
     background-color: rgb(200, 200, 228);
 }
 
-.td_comments_1 {
+.td_comments_Id {
     min-width: 60px;
     width: 60px;
 }
 
-.td_comments_2 {
+.td_comments_UserId {
     min-width: 120px;
     width: 200px;
 }
 
-.td_comments_3 {
+.td_comments_Text {
 }
 
-.td_comments_4 {
+.td_comments_Toxic {
     min-width: 60px;
     width: 60px;
 }

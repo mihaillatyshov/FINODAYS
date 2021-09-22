@@ -15,12 +15,11 @@ export const CommentsList = ({ comments }) => {
                         <td className="td_comments_4"> Toxic </td>
                     </tr>
                     {comments.map((comment, i) => (
-                        <tr key={i} className={"tr_comments_" + (i % 2)}>
-                            {comment.map((field, j) => (
-                                <td key={j} className={"td_comments_" + (j + 1)}>
-                                    {field}
-                                </td>
-                            ))}
+                        <tr key={comment.id} className={"tr_comments_" + (i % 2)}>
+                            <td key="id"      className="td_comments_Id">     {comment.id}      </td>
+                            <td key="user_id" className="td_comments_UserId"> {comment.user_id} </td>
+                            <td key="text"    className="td_comments_Text">   {comment.text}    </td>
+                            <td key="toxic"   className="td_comments_Toxic">  {comment.toxic}   </td>
                         </tr>
                     ))}
                 </tbody></table>
