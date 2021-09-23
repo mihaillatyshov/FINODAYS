@@ -6,8 +6,8 @@ export default function Comments() {
 
     const [comments, setComments] = useState([])
     const [addComment, setAddComment] = useState('')
-
-    useEffect(() => {
+    
+    const getLatestComments = () => {
         fetch("/get_comments").then(responce => {
             if (responce.ok){
                 return responce.json()
@@ -21,6 +21,10 @@ export default function Comments() {
                 console.log(data)
             }
         })
+    }
+
+    useEffect(() => {
+        getLatestComments()
     }, [])
     
     const handleFormChange = (inputValue) => {
@@ -43,16 +47,6 @@ export default function Comments() {
         })
     }
 
-    const getLatestComments = () => {
-        fetch("/get_comments").then(responce => {
-            if (responce.ok){
-                return responce.json()
-            }
-        }).then(data => {
-            setComments(data.comments)
-            console.log(data)
-        })
-    }
 
     return (
         <div> 

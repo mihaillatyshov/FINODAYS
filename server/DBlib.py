@@ -1,18 +1,24 @@
 import mysql.connector
 from mysql.connector import Error
+from mysql.connector import errorcode
+from mysql.connector import connection
 
 class DataBase:
     def __init__(self, host_name, user_name, user_password, db_name):
-        self.connection = self.CreateConnection(host_name, user_name, user_password, db_name)
+        self.host_name = host_name
+        self.user_name = user_name
+        self.user_password = user_password
+        self.db_name = db_name
+        self.connection = self.CreateConnection()
     
-    def CreateConnection(self, host_name, user_name, user_password, db_name):
+    def CreateConnection(self,):
         connection = None
         try:
             connection = mysql.connector.connect(
-                host=host_name,
-                user=user_name,
-                passwd=user_password,
-                database=db_name
+                host = self.host_name,
+                user = self.user_name,
+                passwd = self.user_password,
+                database = self.db_name
             )
             print("Connection to MySQL DB successful")
         except Error as e:
@@ -20,9 +26,21 @@ class DataBase:
 
         return connection
 
+    def GetCursor(self):
+        try:
+            cursor = self.connection.cursor()
+            return cursor
+        except Error as e:
+            print("ERRRROR!!!")
+            print(f"The error '{e}' occurred")
+            if (e.errno == -1):
+                connection = self.CreateConnection()
+                if (connection):
+                    self.connection = connection
+
     def CreateDatabase(self, db_name):
         query = "CREATE DATABASE " + db_name
-        cursor = self.connection.cursor()
+        cursor = self.GetCursor()
         try:
             cursor.execute(query)
             print("Database created successfully")
@@ -30,7 +48,7 @@ class DataBase:
             print(f"The error '{e}' occurred")
 
     def ExecuteQuery(self, query):
-        cursor = self.connection.cursor()
+        cursor = self.GetCursor()
         try:
             cursor.execute(query)
             self.connection.commit()
@@ -39,7 +57,7 @@ class DataBase:
             print(f"The error '{e}' occurred")
             
     def ExecuteManyQuery(self, query, data):
-        cursor = self.connection.cursor()
+        cursor = self.GetCursor()
         try:
             cursor.executemany(query, data)
             self.connection.commit()
@@ -48,7 +66,7 @@ class DataBase:
             print(f"The error '{e}' occurred")
 
     def ExecuteReadQuery(self, query):
-        cursor = self.connection.cursor()
+        cursor = self.GetCursor()
         result = None
         try:
             cursor.execute(query)
