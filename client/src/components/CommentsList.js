@@ -1,28 +1,50 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './MyStyles.css'
+import { PagesMenu } from './PagesMenu'
 
 export const CommentsList = ({ comments }) => {
+
+    const CommentsOnPage = 5
+    const [PageId, setPageId] = useState(1)
+    const HandlePageChange = (inputPage) => {
+        setPageId(inputPage)
+    }
+    
+    let ShowComments = []
+    for (let i = (PageId - 1) * CommentsOnPage; i < Math.min((PageId - 1) * CommentsOnPage + CommentsOnPage, comments.length); i++)
+    {
+        ShowComments.push(comments[i])
+    }
+
     return (
-        <div>
+        <div className="comments-block mx-auto">
+            <PagesMenu PageId={PageId} ElementsCount={comments.length} ElementsOnPage={CommentsOnPage} OnPageChange={HandlePageChange} />
             {(typeof comments === 'undefined') ? (
                 <p>Loading...</p>
             ) : (
-                <table className="table_comments"><tbody>
-                    <tr className="tr_comments_init">
-                        <td className="td_comments_1"> ID </td>
-                        <td className="td_comments_2"> User ID </td>
-                        <td className="td_comments_3"> Сomment text </td>
-                        <td className="td_comments_4"> Toxic </td>
-                    </tr>
-                    {comments.map((comment, i) => (
-                        <tr key={comment.id} className={"tr_comments_" + (i % 2)}>
-                            <td key="id"      className="td_comments_Id">     {comment.id}      </td>
-                            <td key="user_id" className="td_comments_UserId"> {comment.user_id} </td>
-                            <td key="text"    className="td_comments_Text">   {comment.text}    </td>
-                            <td key="toxic"   className="td_comments_Toxic">  {comment.toxic}   </td>
+                <table className="table table-dark table-striped">
+                    <thead>
+                        <tr>
+                            <th> ID           </th>
+                            <th> User ID      </th>
+                            <th> Сomment text </th>
+                            <th> Toxic        </th>
                         </tr>
-                    ))}
-                </tbody></table>
+                    </thead>
+                    <tbody>
+                        {
+                            ShowComments.map((comment, i) => (
+                                <tr key={comment.id} className="">
+                                    <th key="id"      className="" scope="row"> {(PageId - 1) * CommentsOnPage + i} </th>
+                                    <td key="user_id" className="">             {comment.user_id}                   </td>
+                                    <td key="text"    className="">             {comment.text}                      </td>
+                                    <td key="toxic"   className="">             {comment.toxic}                     </td>
+
+                                </tr>
+                            ))
+                        }
+                    </tbody>
+                </table>
             )}
         </div>
     )

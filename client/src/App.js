@@ -4,7 +4,7 @@ import Comments from './components/Comments'
 class App extends React.Component{
     render (){
         return (
-            <div className="App">
+            <div className="App bg-main">
                 <Comments />
                 <br />
                 <div> Rate us! 

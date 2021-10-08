@@ -11,6 +11,7 @@ export const CommentForm = ({ userInput, onFormChange, onFormSubmit }) => {
         event.preventDefault()
         onFormSubmit()
     }
+    
     return (
         <form onSubmit={handleSubmit}>
             <textarea
@@ -22,7 +23,7 @@ export const CommentForm = ({ userInput, onFormChange, onFormSubmit }) => {
                 value={userInput} 
                 onChange={handleChange} 
             /><br />
-            <input type="submit" value="Submit" /> 
+            <input className="btn btn-dark" type="submit" value="Submit" /> 
             <br /><br />
         </form>
     )
