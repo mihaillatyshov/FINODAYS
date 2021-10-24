@@ -22,8 +22,8 @@ def GetSerialize(tableName, page, pageSize):
 
 @app.route("/comments", methods=["GET"])
 def comments_get():
-	page = int(request.args.get("page"))
-	pageSize = min(int(request.args.get("page_size", 5)), 10)
+	page = max(int(request.args.get("page", 0)), 0)
+	pageSize = max(min(int(request.args.get("page_size", 5)), 10), 1)
 	return jsonify({
 		"comments" : GetSerialize("comments", page, pageSize), 
 		"count" : DataBase.GetCommentsCount()
